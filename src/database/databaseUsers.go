@@ -21,6 +21,4 @@ func ConnDatabase() {
 	fmt.Println("Succesfully connected to a database")
 
 	DB.AutoMigrate(&models.Users{})
-	DB.AutoMigrate(&models.ChatReqest{})
-	fmt.Println("Database migrated")
 }

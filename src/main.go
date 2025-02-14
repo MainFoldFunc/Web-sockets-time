@@ -10,8 +10,9 @@ import (
 )
 
 func main() {
-	// ✅ Connect to the database before using it
+	// ✅ Connect to the database
 	database.ConnDatabase()
+	database.ConnDatabaseConv()
 
 	server := fiber.New()
 
@@ -22,14 +23,14 @@ func main() {
 		AllowCredentials: true,
 	}))
 
+	// REST API routes
 	server.Post("/api/register", handlers.RegisterHandler)
 	server.Post("/api/login", handlers.LoginHandler)
 	server.Post("/api/logout", handlers.LogoutHandler)
 
-	server.Post("/api/reqest", handlers.ChatReqestHandler)
-	server.Post("/api/acceptReqest", handlers.AcceptChatRequestHandler)
-	server.Post("/api/declineReqest", handlers.DeclineChatRequestHandler)
+	server.Post("/api/chatReqest", handlers.ChatReqest)
 
 	port := "8080"
+	log.Println("Server running on http://localhost:" + port)
 	log.Fatal(server.Listen(":" + port))
 }

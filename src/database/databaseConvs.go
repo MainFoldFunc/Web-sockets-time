@@ -9,17 +9,14 @@ import (
 	"gorm.io/gorm"
 )
 
-var DBCONVS *gorm.DB
+var DBC *gorm.DB
 
-func ConnDatabaseConvs() {
+func ConnDatabaseConv() {
 	var err error
-	DBCONVS, err = gorm.Open(sqlite.Open("Convs.db"), &gorm.Config{})
+	DBC, err = gorm.Open(sqlite.Open("Convs.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect to a database")
 	}
-
-	fmt.Println("Succesfully connected to a database")
-
-	DB.AutoMigrate(&models.Conv{})
-	fmt.Println("Database migrated")
+	DBC.AutoMigrate(&models.ChatReqest{})
+	fmt.Println("Sucesfully conected to a database")
 }
