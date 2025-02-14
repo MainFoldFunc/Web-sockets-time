@@ -1,0 +1,3 @@
+the logout docs needs just a cookie with your email addres
+It just deletes the cookie and you cannot use anything
+It also returns a message
