@@ -1,0 +1,15 @@
+The register handler accepts the json reqest like this:
+{
+  "name": "RandomName",
+  "email": "exampl@email.com",
+  "password": "password123"
+}
+
+And inserts it into the Users.db database like this:
+
+ ID  name email password
+----|----|----|----
+1   |    |    |    |
+
+And returns a message and status 201
+
