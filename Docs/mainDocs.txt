@@ -1,0 +1,30 @@
+This server for now has 7 routes
+All of them are post reqests
+All of them except JSON body
+
+This server is made with those external repositories
+github.com/gofiber/fiber/v2
+gorm.io/gorm
+gorm.io/driver/sqlite
+github.com/golang-jwt/jwt
+
+There are 2 databases that store the data that is send thru those handlers below
+Users.db
+Conv.db
+
+More on those in databases.txt
+
+The server is accepting the reqests only from
+localhost:5173
+And only POST reqests
+
+
+
+The routes are like this:
+  1. "http://localhost:8080/api/register"
+  2. "http://localhost:8080/api/login"
+  3. "http://localhost:8080/api/logout"
+  4. "http://localhost:8080/api/chatReqest"
+  5. "http://localhost:8080/api/seeChatReqests"
+  6. "http://localhost:8080/api/acceptChatReqest"
+  7. "http://localhost:8080/api/declineChatReqest"
