@@ -1,0 +1,14 @@
+LoginHandler takes the JSON like this:
+{
+  "email": "exampl@email.com",
+  "password": "password123"
+}
+
+And it checks if the user like this exists in the database.
+If not it returns an error
+And if it is it generates a cookie with a jwt token
+and sends it back to user
+
+Now every other handler will need this jwt token.
+
+And returns message
