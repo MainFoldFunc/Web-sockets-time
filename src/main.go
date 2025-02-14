@@ -32,6 +32,7 @@ func main() {
 	server.Post("/api/seeChatReqests", handlers.SeeChatReqestsHandler)
 
 	server.Post("/api/acceptChatReqest", handlers.AcceptChatReqest)
+	server.Post("/api/declineChatReqest", handlers.DeclineChatReqestHandler)
 
 	port := "8080"
 	log.Println("Server running on http://localhost:" + port)

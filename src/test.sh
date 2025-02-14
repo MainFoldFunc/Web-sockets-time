@@ -54,7 +54,15 @@ curl -X POST http://localhost:8080/api/seeChatReqests \
       }'
 
 # Bob accepts Alice's chat request (fixing JSON structure)
-curl -X POST http://localhost:8080/api/acceptChatReqest \
+#curl -X POST http://localhost:8080/api/acceptChatReqest \
+#  -H "Content-Type: application/json" \
+#  -b cookiesbob.txt \
+#  -d '{
+#        "userEmail": "bob@example.com",
+#        "userS": "alice@example.com"
+#      }'
+
+curl -X POST http://localhost:8080/api/declineChatReqest\
   -H "Content-Type: application/json" \
   -b cookiesbob.txt \
   -d '{
