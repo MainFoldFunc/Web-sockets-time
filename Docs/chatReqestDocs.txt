@@ -1,0 +1,20 @@
+The chatReqest needs this JSON body and a cookie:
+
+{
+  "userS": "Email of the user that sends a reqest",
+  "userR": "Email of the user that needs to accept or decline the reqest"
+}
+
+It authenticates if the user is legit
+More on that in authDocs.txt
+
+It checks if the userR and userS exist in the Users.db database
+If one of them or both not exists it returns an error
+
+Else it writes this to a Conv.db database
+
+  user_s    user_r   status
+|---------|----------|------|
+emai1@.com email2@.com wating
+
+and it returns an message
