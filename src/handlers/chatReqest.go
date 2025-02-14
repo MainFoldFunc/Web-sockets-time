@@ -33,7 +33,7 @@ func ChatReqest(c *fiber.Ctx) error {
 
 	// Check if the receiver exists in the database
 	var inUsers models.Users
-	resouult := database.DB.Where("login = ?", reqest.UserR).First(&inUsers)
+	resouult := database.DB.Where("email= ?", reqest.UserR).First(&inUsers)
 	if resouult.RowsAffected == 0 { // Corrected condition here
 		return c.Status(400).JSON(map[string]string{"error": "There is no such user"})
 	}
