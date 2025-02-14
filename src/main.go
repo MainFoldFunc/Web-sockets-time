@@ -29,6 +29,9 @@ func main() {
 	server.Post("/api/logout", handlers.LogoutHandler)
 
 	server.Post("/api/chatReqest", handlers.ChatReqest)
+	server.Post("/api/seeChatReqests", handlers.SeeChatReqestsHandler)
+
+	server.Post("/api/acceptChatReqest", handlers.AcceptChatReqest)
 
 	port := "8080"
 	log.Println("Server running on http://localhost:" + port)

@@ -40,7 +40,7 @@ func ChatReqest(c *fiber.Ctx) error {
 
 	// Check if a request already exists
 	var existsReqest models.ChatReqest
-	result := database.DBC.Where("userS = ? AND userR = ?", reqest.UserS, reqest.UserR).First(&existsReqest)
+	result := database.DBC.Where("user_s = ? AND user_r = ?", reqest.UserS, reqest.UserR).First(&existsReqest)
 	if result.RowsAffected > 0 {
 		return c.Status(400).JSON(map[string]string{"error": "Request already exists"})
 	}
