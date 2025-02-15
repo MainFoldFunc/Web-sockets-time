@@ -7,36 +7,47 @@ import (
 	"github.com/MainFoldFunc/Web-sockets-time/src/handlers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/websocket/v2"
 )
 
 func main() {
-	// ✅ Connect to the database
+	// ✅ Connect to the databases
 	database.ConnDatabase()
 	database.ConnDatabaseConv()
 
-	server := fiber.New()
+	app := fiber.New()
 
-	server.Use(cors.New(cors.Config{
+	// ✅ CORS Configuration
+	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "http://localhost:5173",
-		AllowMethods:     "POST",
+		AllowMethods:     "GET,POST",
 		AllowHeaders:     "Content-Type, Authorization",
 		AllowCredentials: true,
 	}))
 
-	// REST API routes
-	server.Post("/api/register", handlers.RegisterHandler)
-	server.Post("/api/login", handlers.LoginHandler)
-	server.Post("/api/logout", handlers.LogoutHandler)
+	// ✅ REST API Endpoints
+	app.Post("/api/register", handlers.RegisterHandler)
+	app.Post("/api/login", handlers.LoginHandler)
+	app.Post("/api/logout", handlers.LogoutHandler)
 
-	server.Post("/api/chatReqest", handlers.ChatReqest)
-	server.Post("/api/seeChatReqests", handlers.SeeChatReqestsHandler)
+	app.Post("/api/chatReqest", handlers.ChatReqest)
+	app.Post("/api/seeChatReqests", handlers.SeeChatReqestsHandler)
+	app.Post("/api/acceptChatReqest", handlers.AcceptChatReqest)
+	app.Post("/api/declineChatReqest", handlers.DeclineChatReqestHandler)
 
-	server.Post("/api/acceptChatReqest", handlers.AcceptChatReqest)
-	server.Post("/api/declineChatReqest", handlers.DeclineChatReqestHandler)
+	// ✅ WebSocket Authentication Middleware
+	app.Use("/api/sendMessage", func(c *fiber.Ctx) error {
+		if err := handlers.Authenticate(c); err != nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "unauthorized"})
+		}
+		return c.Next()
+	})
 
-	server.Post("/api/sendMessage", handlers.SendMessage)
+	// ✅ WebSocket Endpoint
+	app.Get("/api/sendMessage", websocket.New(handlers.SendMessage))
 
+	// ✅ Start Server
 	port := "8080"
 	log.Println("Server running on http://localhost:" + port)
-	log.Fatal(server.Listen(":" + port))
+	log.Fatal(app.Listen(":" + port))
 }
