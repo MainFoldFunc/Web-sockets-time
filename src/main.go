@@ -35,7 +35,7 @@ func main() {
 	app.Post("/api/acceptChatReqest", handlers.AcceptChatReqest)
 	app.Post("/api/declineChatReqest", handlers.DeclineChatReqestHandler)
 
-	// ✅ WebSocket Authentication Middleware
+	// ✅ WebSocket Authentication Middleware for Sending Messages
 	app.Use("/api/sendMessage", func(c *fiber.Ctx) error {
 		if err := handlers.Authenticate(c); err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "unauthorized"})
@@ -43,8 +43,17 @@ func main() {
 		return c.Next()
 	})
 
-	// ✅ WebSocket Endpoint
+	// ✅ WebSocket Authentication Middleware for Receiving Messages
+	app.Use("/api/getMessages", func(c *fiber.Ctx) error {
+		if err := handlers.Authenticate(c); err != nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "unauthorized"})
+		}
+		return c.Next()
+	})
+
+	// ✅ WebSocket Endpoints
 	app.Get("/api/sendMessage", websocket.New(handlers.SendMessage))
+	app.Get("/api/getMessages", websocket.New(handlers.GetMessage)) // Added this line
 
 	// ✅ Start Server
 	port := "8080"
