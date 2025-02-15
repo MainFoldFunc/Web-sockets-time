@@ -1,0 +1,44 @@
+/* NavBar.module.css */
+
+* {
+  box-sizing: border-box;
+  /* Ensures padding and border don't cause overflow */
+}
+
+.navbar {
+  background-color: #333;
+  padding: 10px 20px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  overflow: hidden;
+  /* Prevent overflow */
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  /* Align items to the right */
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li {
+  margin: 0 15px;
+  /* Space between navbar items */
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  color: #f39c12;
+  /* Change color when hovered */
+}
