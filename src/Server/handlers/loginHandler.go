@@ -15,22 +15,26 @@ const secretKey = "secretWoohoo"
 func LoginHandler(c *fiber.Ctx) error {
 	userLogin := new(models.UserLogin)
 
+	// Parse request body
 	err := c.BodyParser(userLogin)
 	if err != nil {
-		return c.Status(400).JSON(map[string]string{"error": "Invalid reqest body"})
+		return c.Status(400).JSON(map[string]string{"error": "Invalid request body"})
 	}
 
+	// Find user in the database
 	var user models.Users
 	result := database.DB.Where("email = ?", userLogin.Email).First(&user)
 	if result.Error != nil {
-		return c.Status(404).JSON((map[string]string{"error": "User not found"}))
+		return c.Status(404).JSON(map[string]string{"error": "User not found"})
 	}
 
+	// Check password
 	if user.Password != userLogin.Password {
-		return c.Status(401).JSON(map[string]string{"error": "Incorrect passsword"})
+		return c.Status(401).JSON(map[string]string{"error": "Incorrect password"})
 	}
 	fmt.Println("User logged in: ", user.Email)
 
+	// Generate JWT token
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 		Issuer:    user.Email,
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
@@ -38,18 +42,12 @@ func LoginHandler(c *fiber.Ctx) error {
 
 	token, err := claims.SignedString([]byte(secretKey))
 	if err != nil {
-		return c.Status(500).JSON(map[string]string{"error": "couldn't generate a JWT token"})
+		return c.Status(500).JSON(map[string]string{"error": "Couldn't generate a JWT token"})
 	}
 
-	cookie := fiber.Cookie{
-		Name:     "jwt",
-		Value:    token,
-		Expires:  time.Now().Add(time.Hour * 24),
-		HTTPOnly: true,
-	}
-	c.Cookie(&cookie)
-
+	// ✅ Instead of setting a cookie, return the JWT token in JSON response
 	return c.Status(200).JSON(map[string]interface{}{
-		"message": "Login succesful",
+		"message": "Login successful",
+		"token":   token,
 	})
 }
