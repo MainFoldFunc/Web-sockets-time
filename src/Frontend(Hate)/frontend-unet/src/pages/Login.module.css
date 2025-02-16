@@ -1,0 +1,56 @@
+/* Center the form in the middle of the page */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* Full height of the viewport */
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  /* Gradient background */
+}
+
+/* Style the form */
+form {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+/* Style input fields */
+input {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+/* Input focus effect */
+input:focus {
+  outline: none;
+  border-color: #6e8efb;
+  box-shadow: 0 0 5px rgba(110, 142, 251, 0.5);
+}
+
+/* Style the submit button */
+button {
+  background: #6e8efb;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Button hover effect */
+button:hover {
+  background: #5a7adb;
+}

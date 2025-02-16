@@ -1,23 +1,21 @@
-// NavBar.js
+import { Link } from "react-router-dom";
 import styles from "./NavBar.module.css"; // Import the CSS module
 
 function NavBar() {
   return (
     <div className={styles.navbar}>
-      {" "}
-      {/* Apply the navbar class */}
       <ul>
         <li>
-          <a href="#home">Home</a>
+          <Link to="/">Home</Link>
         </li>
         <li>
-          <a href="#about">Login</a>
+          <Link to="/login">Login</Link>
         </li>
         <li>
-          <a href="#services">Register</a>
+          <Link to="/register">Register</Link>
         </li>
         <li>
-          <a href="#contact">register</a>
+          <Link to="/logout">Logout</Link>
         </li>
       </ul>
     </div>

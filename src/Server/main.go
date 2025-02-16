@@ -17,10 +17,10 @@ func main() {
 
 	app := fiber.New()
 
-	// ✅ CORS Configuration
+	// ✅ Improved CORS Configuration
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:5173",
-		AllowMethods:     "GET,POST",
+		AllowOrigins:     "http://192.168.1.19:5173", // No trailing slash
+		AllowMethods:     "GET,POST,OPTIONS",         // Added OPTIONS
 		AllowHeaders:     "Content-Type, Authorization",
 		AllowCredentials: true,
 	}))
@@ -30,10 +30,10 @@ func main() {
 	app.Post("/api/login", handlers.LoginHandler)
 	app.Post("/api/logout", handlers.LogoutHandler)
 
-	app.Post("/api/chatReqest", handlers.ChatReqest)
-	app.Post("/api/seeChatReqests", handlers.SeeChatReqestsHandler)
-	app.Post("/api/acceptChatReqest", handlers.AcceptChatReqest)
-	app.Post("/api/declineChatReqest", handlers.DeclineChatReqestHandler)
+	app.Post("/api/chatRequest", handlers.ChatReqest)
+	app.Post("/api/seeChatRequests", handlers.SeeChatReqestsHandler)
+	app.Post("/api/acceptChatRequest", handlers.AcceptChatReqest)
+	app.Post("/api/declineChatRequest", handlers.DeclineChatReqestHandler)
 
 	// ✅ WebSocket Authentication Middleware for Sending Messages
 	app.Use("/api/sendMessage", func(c *fiber.Ctx) error {
@@ -53,10 +53,10 @@ func main() {
 
 	// ✅ WebSocket Endpoints
 	app.Get("/api/sendMessage", websocket.New(handlers.SendMessage))
-	app.Get("/api/getMessages", websocket.New(handlers.GetMessage)) // Added this line
+	app.Get("/api/getMessages", websocket.New(handlers.GetMessage))
 
 	// ✅ Start Server
 	port := "8080"
-	log.Println("Server running on http://localhost:" + port)
+	log.Println("🚀 Server running on http://localhost:" + port)
 	log.Fatal(app.Listen(":" + port))
 }
