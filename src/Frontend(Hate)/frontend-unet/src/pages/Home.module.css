@@ -8,26 +8,40 @@
   background-color: #f4f4f4;
   color: #333;
   font-family: Arial, sans-serif;
+  position: relative;
+  /* Allows absolute positioning inside */
 }
 
-h1 {
-  font-size: 2rem;
-  margin-bottom: 10px;
+/* Top left container for search bar and button */
+.top_left {
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Spacing between input and button */
 }
 
-p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  color: #555;
-}
-
-button {
-  padding: 10px 20px;
+/* Search bar input */
+input[type="text"] {
+  padding: 8px;
   font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* Button styling */
+button {
+  padding: 1px 1px;
+  width: 100Q;
+  height: 40Q;
+  font-size: 0.3rem;
   color: white;
   background-color: #007bff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
   transition: background 0.3s ease;
 }
@@ -37,16 +51,17 @@ button:hover {
 }
 
 @media (max-width: 600px) {
-  h1 {
-    font-size: 1.5rem;
+  .top-left {
+    top: 10px;
+    left: 10px;
   }
 
-  p {
-    font-size: 1rem;
+  input[type="text"] {
+    width: 150px;
   }
 
   button {
     font-size: 0.9rem;
-    padding: 8px 16px;
+    padding: 6px 10px;
   }
 }
