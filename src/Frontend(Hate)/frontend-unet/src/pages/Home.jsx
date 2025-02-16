@@ -19,18 +19,17 @@ function Home() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Fixed typo here (preventDefault instead of PreventDefault)
+    e.preventDefault();
 
     if (formData.name === "") {
       setMessage("Please fill in the field");
       return;
     }
 
-    setMessage("Searching for users");
+    setMessage("Searching for users...");
 
     try {
-      const response = await fetch("http://localhost:8080/api/search", {
-        // Changed to a hypothetical search endpoint
+      const response = await fetch("http://192.168.1.19:8080/api/searchUsers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,18 +38,27 @@ function Home() {
         credentials: "include",
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage("Users found!");
-        setUsers(data.users); // Assuming the response contains users in the "users" property
-      } else {
+      // Check response.ok before parsing
+      if (!response.ok) {
+        const data = await response.json();
         setMessage(
-          data.error || "Fetching users failed, please try again later",
+          data.error || "Fetching users failed, please try again later.",
         );
+        return;
+      }
+
+      const data = await response.json();
+      console.log(data); // Log the entire response
+
+      if (data.users && data.users.length > 0) {
+        setMessage("Users found!");
+        setUsers(data.users); // Set the users only if they exist
+      } else {
+        setMessage("No users found.");
       }
     } catch (error) {
       setMessage("Network error. Please try again later.");
+      console.error(error); // Log network errors
     }
   };
 
@@ -59,24 +67,24 @@ function Home() {
       {isLoggedIn ? (
         <>
           <div className={styles.top_left}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Search..."
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <button type="submit" onClick={handleSubmit}>
-              Search
-            </button>
-          </div>
-          {message && <p>{message}</p>} {/* Display message */}
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="name"
+                placeholder="Search..."
+                value={formData.name}
+                onChange={handleChange}
+              />
+              <button type="submit">Search</button>
+            </form>
+          </div>{" "}
+          {/* Scrollable user list */}
           {users.length > 0 && (
             <div className={styles.userList}>
               {users.map((user) => (
-                <div key={user.id} className={styles.userCard}>
-                  <h3>{user.name}</h3>
-                  <p>{user.email}</p>
+                <div key={user.ID} className={styles.userCard}>
+                  <p>{user.Email}</p>
+                  <button>Chat</button>
                 </div>
               ))}
             </div>

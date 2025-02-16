@@ -1,26 +1,24 @@
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   height: 100vh;
-  text-align: center;
+  text-align: left;
   background-color: #f4f4f4;
   color: #333;
   font-family: Arial, sans-serif;
   position: relative;
-  /* Allows absolute positioning inside */
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
-/* Top left container for search bar and button */
-.top_left {
-  position: absolute;
-  top: 30px;
-  left: 20px;
+/* Top-left container for search bar and button */
+.top-left {
   display: flex;
   align-items: center;
   gap: 10px;
-  /* Spacing between input and button */
+  margin-bottom: 20px;
 }
 
 /* Search bar input */
@@ -30,18 +28,17 @@ input[type="text"] {
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
+  width: 250px;
 }
 
 /* Button styling */
 button {
-  padding: 1px 1px;
-  width: 100Q;
-  height: 40Q;
-  font-size: 0.3rem;
+  padding: 8px 12px;
+  font-size: 1rem;
   color: white;
   background-color: #007bff;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease;
 }
@@ -50,18 +47,78 @@ button:hover {
   background-color: #0056b3;
 }
 
+/* Scrollable user list container */
+.userList {
+  margin-top: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  width: 20.5%;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual user card styling */
+.userCard {
+  display: flex;
+  /* Align elements horizontally */
+  justify-content: space-between;
+  /* Space between email and chat button */
+  align-items: center;
+  /* Vertically center content */
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #e1e1e1;
+}
+
+.userCard p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+  flex-grow: 1;
+  /* Make email take up available space */
+}
+
+.userCard button {
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  color: white;
+  background-color: #28a745;
+  /* Green button for "Chat" */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.userCard button:hover {
+  background-color: #218838;
+  /* Darker green on hover */
+}
+
+/* Adjustments for smaller screens */
 @media (max-width: 600px) {
   .top-left {
-    top: 10px;
-    left: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
   }
 
   input[type="text"] {
-    width: 150px;
+    width: 200px;
   }
 
   button {
     font-size: 0.9rem;
     padding: 6px 10px;
+  }
+
+  .userList {
+    max-height: 200px;
+    width: 100%;
   }
 }

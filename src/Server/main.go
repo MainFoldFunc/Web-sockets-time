@@ -30,6 +30,8 @@ func main() {
 	app.Post("/api/login", handlers.LoginHandler)
 	app.Post("/api/logout", handlers.LogoutHandler)
 
+	app.Post("/api/searchUsers", handlers.SearchForUsersHandler)
+
 	app.Post("/api/chatRequest", handlers.ChatReqest)
 	app.Post("/api/seeChatRequests", handlers.SeeChatReqestsHandler)
 	app.Post("/api/acceptChatRequest", handlers.AcceptChatReqest)
@@ -58,5 +60,5 @@ func main() {
 	// ✅ Start Server
 	port := "8080"
 	log.Println("🚀 Server running on http://localhost:" + port)
-	log.Fatal(app.Listen(":" + port))
+	log.Fatal(app.Listen("192.168.1.19:" + port))
 }
