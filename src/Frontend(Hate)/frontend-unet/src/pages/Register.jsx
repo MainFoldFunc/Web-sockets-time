@@ -18,9 +18,9 @@ function Register() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const fetcher = "http://192.168.210.89:8080/api/register";
     try {
-      const response = await fetch("http://192.168.1.19:8080/api/register", {
+      const response = await fetch(fetcher, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

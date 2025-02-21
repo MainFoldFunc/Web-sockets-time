@@ -9,7 +9,8 @@ function Logout() {
     localStorage.removeItem("token");
 
     // Inform the server about logout (optional, not needed if only using JWT on frontend)
-    fetch("http://192.168.1.19:8080/api/logout", {
+    const fetcher = "http://192.168.210.89:8080/api/logout";
+    fetch(fetcher, {
       method: "POST",
       credentials: "include", // Only needed if still using cookies
     });

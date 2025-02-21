@@ -7,77 +7,103 @@ function Home() {
   const [formData, setFormData] = useState({ name: "" });
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState([]); // State to hold fetched users
+  const [suggestions, setSuggestions] = useState([]); // State to hold suggestions
   const navigate = useNavigate();
+  const fetcher = "http://192.168.210.89:8080/api/searchUsers";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
   }, []);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  // Function to debounce the search
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (formData.name === "") {
-      setMessage("Please fill in the field");
-      return;
+  // Function to handle input changes
+  const handleChange = (e) => {
+    const searchTerm = e.target.value;
+    setFormData({ ...formData, name: searchTerm }); // Update the state with the input value
+    if (searchTerm === "") {
+      setSuggestions([]); // Clear suggestions if input is empty
+    } else {
+      debouncedSearchChange(searchTerm); // Debounced search
     }
+  };
 
-    setMessage("Searching for users...");
-
+  // Search handler with debounce
+  const handleSearchChange = async (searchTerm) => {
+    setMessage("Searching...");
     try {
-      const response = await fetch("http://192.168.1.19:8080/api/searchUsers", {
+      const response = await fetch(fetcher, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ name: searchTerm }),
         credentials: "include",
       });
 
-      // Check response.ok before parsing
       if (!response.ok) {
         const data = await response.json();
-        setMessage(
-          data.error || "Fetching users failed, please try again later.",
-        );
+        setMessage(data.error || "Fetching users failed.");
         return;
       }
 
       const data = await response.json();
-      console.log(data); // Log the entire response
-
-      if (data.users && data.users.length > 0) {
-        setMessage("Users found!");
-        setUsers(data.users); // Set the users only if they exist
+      if (data.users) {
+        setSuggestions(data.users); // Set suggestions based on search response
       } else {
-        setMessage("No users found.");
+        setSuggestions([]); // Clear suggestions if no users
       }
     } catch (error) {
-      setMessage("Network error. Please try again later.");
-      console.error(error); // Log network errors
+      setMessage("Error fetching data");
+      console.error(error);
     }
   };
+
+  // Debounced version of the search change handler
+  const debouncedSearchChange = debounce(handleSearchChange, 500);
 
   return (
     <div className={styles.container}>
       {isLoggedIn ? (
         <>
           <div className={styles.top_left}>
-            <form onSubmit={handleSubmit}>
+            <form
+              className={styles.searchForm}
+              onSubmit={(e) => e.preventDefault()} // Prevent form submission
+            >
               <input
                 type="text"
                 name="name"
                 placeholder="Search..."
                 value={formData.name}
-                onChange={handleChange}
+                onChange={handleChange} // Use handleChange to update input value
+                className={styles.searchInput}
               />
-              <button type="submit">Search</button>
+              <button type="submit" className={styles.searchButton}>
+                Search
+              </button>
             </form>
-          </div>{" "}
+            {/* Suggestions dropdown */}
+            {suggestions.length > 0 && (
+              <div className={styles.suggestions}>
+                {suggestions.map((user) => (
+                  <div key={user.ID} className={styles.suggestionItem}>
+                    <p>{user.Email}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           {/* Scrollable user list */}
           {users.length > 0 && (
             <div className={styles.userList}>

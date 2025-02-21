@@ -1,124 +1,106 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  height: 100vh;
-  text-align: left;
-  background-color: #f4f4f4;
-  color: #333;
-  font-family: Arial, sans-serif;
-  position: relative;
-  padding-left: 20px;
-  padding-top: 20px;
+/* Home.module.css (add/update these styles) */
+.searchContainer {
+  width: 25%;
+  /* Keep the container width to 25% */
+  padding: 10px 20px;
+  background-color: #f0f2f5;
+  border-bottom: 1px solid #e9edef;
+  position: absolute;
+  /* Position it on the left side of the screen */
+  left: 0;
+  /* Align it to the left */
 }
 
-/* Top-left container for search bar and button */
-.top-left {
+.searchForm {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  width: 25%;
+  /* Make the form take up the entire width of the container */
 }
 
-/* Search bar input */
-input[type="text"] {
-  padding: 8px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  width: 250px;
+.searchInput {
+  width: 100%;
+  /* Input field will take up the full width of the form */
+  padding: 12px 65px 12px 20px;
+  background: #ffffff;
+  border: 1px solid #e9edef;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #3b4a54;
+  box-shadow: 0 2px 4px rgba(11, 20, 26, 0.08);
+  transition: all 0.3s ease-in-out;
 }
 
-/* Button styling */
-button {
-  padding: 8px 12px;
-  font-size: 1rem;
-  color: white;
-  background-color: #007bff;
+.searchInput::placeholder {
+  color: #667781;
+  font-weight: 400;
+}
+
+.searchButton {
+  position: absolute;
+  right: 15px;
+  background: none;
   border: none;
-  border-radius: 5px;
+  padding: 0;
   cursor: pointer;
-  transition: background 0.3s ease;
+  color: #667781;
 }
 
-button:hover {
-  background-color: #0056b3;
+.searchButton svg {
+  width: 20px;
+  height: 20px;
 }
 
-/* Scrollable user list container */
-.userList {
-  margin-top: 20px;
-  max-height: 300px;
-  overflow-y: auto;
-  width: 20.5%;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
+/* Suggestions Dropdown */
+.suggestions {
+  position: flex;
+  /* Position relative to the input field */
+  top: 48px;
+  /* Adjust position to align below input */
+  width: 25%;
+  /* Suggestions take up the full width of the search container */
   background-color: white;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9edef;
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
-/* Individual user card styling */
-.userCard {
-  display: flex;
-  /* Align elements horizontally */
-  justify-content: space-between;
-  /* Space between email and chat button */
-  align-items: center;
-  /* Vertically center content */
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  border: 1px solid #e1e1e1;
-}
-
-.userCard p {
-  margin: 0;
-  font-size: 14px;
-  color: #555;
-  flex-grow: 1;
-  /* Make email take up available space */
-}
-
-.userCard button {
-  padding: 6px 10px;
-  font-size: 0.9rem;
-  color: white;
-  background-color: #28a745;
-  /* Green button for "Chat" */
-  border: none;
-  border-radius: 5px;
+.suggestionItem {
+  padding: 12px 20px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  color: #3b4a54;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
 }
 
-.userCard button:hover {
-  background-color: #218838;
-  /* Darker green on hover */
+.suggestionItem:hover {
+  background-color: #f1f1f1;
 }
 
-/* Adjustments for smaller screens */
+/* Update existing top-left rule */
+.top-left {
+  display: block;
+  position: relative;
+  /* Necessary to display search form properly */
+}
+
+/* Update media query */
 @media (max-width: 600px) {
-  .top-left {
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
+  .searchContainer {
+    padding: 10px 15px;
+    width: 25%;
+    /* Full width for smaller screens */
   }
 
-  input[type="text"] {
-    width: 200px;
+  .searchInput {
+    padding: 10px 55px 10px 15px;
+    font-size: 14px;
   }
 
-  button {
-    font-size: 0.9rem;
-    padding: 6px 10px;
-  }
-
-  .userList {
-    max-height: 200px;
-    width: 100%;
+  .searchButton {
+    right: 10px;
   }
 }

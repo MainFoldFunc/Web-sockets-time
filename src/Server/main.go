@@ -2,25 +2,37 @@ package main
 
 import (
 	"log"
+	"os"
+	"path/filepath"
 
 	"github.com/MainFoldFunc/Web-sockets-time/src/database"
 	"github.com/MainFoldFunc/Web-sockets-time/src/handlers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/websocket/v2"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// ✅ Load .env from two directories up
+	envPath, _ := filepath.Abs("../../.env")
+	err := godotenv.Load(envPath)
+	if err != nil {
+		log.Fatal("Error while opening the .env file:", err)
+	}
+
 	// ✅ Connect to the databases
 	database.ConnDatabase()
 	database.ConnDatabaseConv()
 
 	app := fiber.New()
 
+	allowOrigins := "http://" + os.Getenv("PORT_ORIGIN")
+
 	// ✅ Improved CORS Configuration
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://192.168.1.19:5173", // No trailing slash
-		AllowMethods:     "GET,POST,OPTIONS",         // Added OPTIONS
+		AllowOrigins:     allowOrigins,       // No trailing slash
+		AllowMethods:     "GET,POST,OPTIONS", // Added OPTIONS
 		AllowHeaders:     "Content-Type, Authorization",
 		AllowCredentials: true,
 	}))
@@ -58,7 +70,7 @@ func main() {
 	app.Get("/api/getMessages", websocket.New(handlers.GetMessage))
 
 	// ✅ Start Server
-	port := "8080"
-	log.Println("🚀 Server running on http://localhost:" + port)
-	log.Fatal(app.Listen("192.168.1.19:" + port))
+	port := os.Getenv("PORT")
+	log.Println("🚀 Server running on:", port)
+	log.Fatal(app.Listen(port)) // ✅ Correct
 }

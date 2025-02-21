@@ -23,8 +23,9 @@ function Login() {
     }
     setMessage("Logging in...");
 
+    const fetcher = "http://192.168.210.89:8080/api/login";
     try {
-      const response = await fetch("http://192.168.1.19:8080/api/login", {
+      const response = await fetch(fetcher, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
